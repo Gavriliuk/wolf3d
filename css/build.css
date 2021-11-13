@@ -25,27 +25,6 @@ canvas{
     -ms-interpolation-mode:nearest-neighbor;   /* IE8+                           */
 }
 
-.fb-like{
-    position: fixed !important;
-    z-index: 10000;
-    bottom: 5px;
-    left: 5px;
-    background: #fff;
-    padding: 3px;
-    border-radius: 5px;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.5);
-}
-
-.donate-button{
-    position: fixed;
-    z-index: 10000;
-    top: 5px;
-    right: 5px;
-    background: #fff;
-    padding: 3px;
-    border-radius: 5px;
-    box-shadow: 3px 3px rgba(0, 0, 0, 0.5);
-}
 
 .menu ::-webkit-scrollbar{
     width: 13px;
