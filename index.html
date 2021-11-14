@@ -69,6 +69,46 @@ const start=e=>{
   game.client.activeWeapon.animation.play()
  },{capture:true})
 
+ addEventListener('keypress',e=>{
+  if(!game||!game.client||!game.client.activeWeapon)return
+  if(e.code=='KeyW')game.client.forward()
+  else if(e.code=='KeyS')game.client.backward()
+  else if(e.code=='KeyQ')game.client.strafeLeft()
+  else if(e.code=='KeyE')game.client.strafeRight()
+  else if(e.code=='KeyA')game.client[e.altKey?'strafeLeft':'left']()
+  else if(e.code=='KeyD')game.client[e.altKey?'strafeRight':'right']()
+  else if(e.code=='Numpad1'){
+   wolf3d.silverKey().listeners.hit(game.client)
+  }else if(e.code=='Numpad2'){
+   wolf3d.goldKey().listeners.hit(game.client)
+  }else if(e.code=='Numpad3'){
+   wolf3d.machineGun().listeners.hit(game.client)
+  }else if(e.code=='Numpad4'){
+   wolf3d.gatling().listeners.hit(game.client)
+  }else if(e.code=='Numpad5'){
+   game.client.setProperty("ammo",game.client.max.ammo)
+  }else if(e.code=='Numpad6'){
+   game.client.setProperty("health",game.client.max.health)
+  }else if(e.code=='Digit5'){
+   game.client.max.ammo=e.shiftKey?1000000:99
+   game.client.setProperty("ammo",game.client.max.ammo)
+  }else if(e.code=='Digit6'){
+   game.client.max.health=e.shiftKey?1000000:100
+   game.client.setProperty("health",game.client.max.health)
+  }else if(e.code=='Digit8'){
+   if(e.shiftKey)game.client.leveldone=1
+  }else if(e.code=='Digit9'){
+   if(e.shiftKey){
+    game.client.ratio.kill=game.client.map.ai.length
+    game.client.ratio.secret=game.client.map.secrets.length
+    game.client.ratio.treasure=game.client.map.treasures
+    game.client.leveldone=1
+   }
+  }else if(e.code=='Digit0'){
+   if(e.shiftKey)game.client.map.ai.forEach(ai=>{if(ai.hit){ai.animations.current='dying'}})
+  }
+ },{capture:true})
+
 }
 
 
