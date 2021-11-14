@@ -21,9 +21,57 @@ const start=e=>{
    dispatchEvent(new Event('load'))
   },1000)
  })
- script.src='js/build.js'
+ script.src='js/build_readable.js'
  document.head.appendChild(script)
+
+ let prevX=0
+//debug=1
+ addEventListener('mousemove',e=>{
+  if(!game||!game.client||!game.client.speed||game.activeScreen!='game')return
+  const c=document.getElementById('container')
+  if(!c)return
+  const x=e.clientX
+  const dx=x-prevX
+  if(!dx)return
+  prevX=x
+  if(c.offsetTop>e.clientY||e.clientY>c.offsetTop+c.offsetHeight)return
+  if(e.altKey){
+   //const saved=game.client.speed.move
+   //game.client.speed.move/=10
+   game.client[dx>0?'strafeRight':'strafeLeft']()
+   //game.client.speed.move=saved
+  }else{
+//if(debug)console.log(JSON.stringify(game.levelConfig)),debug=0
+   const saved=game.client.speed.rotation
+   game.client.speed.rotation*=dx/10
+   game.client.right()
+   game.client.speed.rotation=saved
+  }
+ },{capture:true})
+
+ let fireInterval=null
+
+ addEventListener('mousedown',e=>{
+  if(!game||!game.client)return
+  if(e.button)return game.client.door()
+  if(!game.client.activeWeapon)return
+  if(2>game.client.activeWeapon.id)return game.client.activeWeapon.animation.play()
+  if(!fireInterval)fireInterval=setInterval(e=>{
+   if(game.client.activeWeapon.ammo)game.client.activeWeapon.fire(game.client)
+   else clearInterval(fireInterval),fireInterval=null,game.client.activeWeapon.animation.play()
+  },20)
+ },{capture:true})
+
+ addEventListener('mouseup',e=>{
+  if(e.button||!fireInterval)return
+  clearInterval(fireInterval)
+  fireInterval=null
+  game.client.activeWeapon.animation.play()
+ },{capture:true})
+
 }
+
+
 </script>
 </head>
 <body oncontextmenu="return false;">
